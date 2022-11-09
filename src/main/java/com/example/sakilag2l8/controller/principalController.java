@@ -7,8 +7,10 @@ import com.example.sakilag2l8.respository.ReservaRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -38,10 +40,26 @@ public class principalController {
             Optional<ReservaEntity> opt=reservaRespository.findById(reserva.getIdReserva());
             if(opt.isPresent()){
                 reservaRespository.save(reserva);
+                responseMap.put("estado","actualizado");
+                return ResponseEntity.ok(responseMap);
             }else{
-
+                responseMap.put("estado","error");
+                responseMap.put("msg","La reserva a actualizar no existe!");
+                return ResponseEntity.badRequest().body(responseMap);
             }
+        }else{
+            responseMap.put("estado","error");
+            responseMap.put("msg","Debe enviar un ID.");
+            return ResponseEntity.badRequest().body(responseMap);
         }
     }
-
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<HashMap<String,String>> gestiondeErrores(HttpServletRequest request){
+        HashMap<String,String> responseMap= new HashMap<>();
+        if(request.getMethod().equals("POST")||request.getMethod().equals("PUT")){
+            responseMap.put("estado","error");
+            responseMap.put("msg","Reserva enviada incorrectamente");
+        }
+        return ResponseEntity.badRequest().body(responseMap);
+    }
 }
