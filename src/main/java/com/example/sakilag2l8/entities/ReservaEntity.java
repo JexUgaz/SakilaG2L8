@@ -14,10 +14,10 @@ public class ReservaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idReserva")
-    private int idReserva;
+    private Integer idReserva;
     @Basic
     @Column(name = "Pelicula_idPelicula")
-    private int peliculaIdPelicula;
+    private Integer peliculaIdPelicula;
     @Basic
     @Column(name = "fecha")
     private String fecha;
