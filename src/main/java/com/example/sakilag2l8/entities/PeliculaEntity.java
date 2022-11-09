@@ -15,7 +15,7 @@ public class PeliculaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "idPelicula")
-    private int idPelicula;
+    private Integer idPelicula;
     @Basic
     @Column(name = "Nombre")
     private String nombre;
