@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @RestController
 public class principalController {
@@ -29,6 +30,18 @@ public class principalController {
         reservaRespository.save(reserva);
         resonseMap.put("msg","Reserva creada exitosamente!");
         return ResponseEntity.status(HttpStatus.CREATED).body(resonseMap);
+    }
+    @PutMapping(value = "/actualizaReserva")
+    public ResponseEntity<HashMap<String, Object>> actualizarReserva(@RequestBody ReservaEntity reserva){
+        HashMap<String, Object> responseMap= new HashMap<>();
+        if(reserva.getIdReserva()!=null && reserva.getIdReserva()>0){
+            Optional<ReservaEntity> opt=reservaRespository.findById(reserva.getIdReserva());
+            if(opt.isPresent()){
+                reservaRespository.save(reserva);
+            }else{
+
+            }
+        }
     }
 
 }
