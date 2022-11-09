@@ -39,7 +39,17 @@ public class principalController {
         if(reserva.getIdReserva()!=null && reserva.getIdReserva()>0){
             Optional<ReservaEntity> opt=reservaRespository.findById(reserva.getIdReserva());
             if(opt.isPresent()){
-                reservaRespository.save(reserva);
+                ReservaEntity reserva1=opt.get();
+                if(reserva.getFecha()!=null){
+                    reserva1.setFecha(reserva.getFecha());
+                }if(reserva.getPeliculaIdPelicula()!=null){
+                    reserva1.setPeliculaIdPelicula(reserva.getPeliculaIdPelicula());
+                }if(reserva.getHoraInicio()!=null){
+                    reserva1.setHoraInicio(reserva.getHoraInicio());
+                }if(reserva.getHoraFin()!=null){
+                    reserva1.setHoraFin(reserva.getHoraFin());
+                }
+                reservaRespository.save(reserva1);
                 responseMap.put("estado","actualizado");
                 return ResponseEntity.ok(responseMap);
             }else{
